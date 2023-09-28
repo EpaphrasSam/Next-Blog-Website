@@ -1,4 +1,4 @@
-import { getPostDetails } from "@/app/api";
+import { getPostDetails } from "@/services";
 import {
   Author,
   Categories,

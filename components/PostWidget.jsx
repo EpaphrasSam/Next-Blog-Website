@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { getRecentPosts, getSimilarPosts } from "@/app/api";
+import { getRecentPosts, getSimilarPosts } from "@/services";
 import moment from "moment/moment";
 import Link from "next/link";
 
@@ -17,8 +17,6 @@ const PostWidget = ({ categories, slug }) => {
       getRecentPosts().then((result) => setRelatedPosts(result));
     }
   }, [slug]);
-
-  // console.log(relatedPosts);
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-8 mb-8">

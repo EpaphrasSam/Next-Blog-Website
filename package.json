@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^1.5.1",
     "dotenv": "^16.3.1",
     "encoding": "^0.1.13",
     "graphql": "^16.8.1",

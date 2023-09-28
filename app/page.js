@@ -1,5 +1,5 @@
 import { PostWidget, Categories, PostCard } from "@/components";
-import { getPosts } from "@/app/api";
+import { getPosts } from "@/services";
 
 export default async function Home() {
   const posts = (await getPosts()) || [];

@@ -1,5 +1,6 @@
 import { request, gql } from "graphql-request";
 import dotenv from "dotenv";
+import axios from "axios";
 
 dotenv.config();
 
@@ -70,7 +71,7 @@ export const getRecentPosts = async () => {
   }
 };
 
-export const getSimilarPosts = async () => {
+export const getSimilarPosts = async (categories, slug) => {
   const query = gql`
     query GetPostDetails($slug: String!, $categories: [String!]) {
       posts(
@@ -90,7 +91,7 @@ export const getSimilarPosts = async () => {
     }
   `;
   try {
-    const result = await request(graphqlAPI, query);
+    const result = await request(graphqlAPI, query, { categories, slug });
     return result.posts;
   } catch (error) {
     console.error(error);
@@ -153,4 +154,10 @@ export const getPostDetails = async (slug) => {
     console.error(error);
     return [];
   }
+};
+
+export const submitComment = async (obj) => {
+  const result = await axios.post("api/comments", obj);
+
+  return result;
 };
