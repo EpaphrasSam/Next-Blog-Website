@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import { FeaturedPosts } from "@/components";
 
 const inter = Inter({ subsets: ["latin"] });
 

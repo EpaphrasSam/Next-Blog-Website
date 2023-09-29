@@ -4,16 +4,15 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
+const graphcmsToken = process.env.GRAPHCMS_TOKEN;
 
-export default async function comments(req, res) {
-  const { name, email, slug, comment } = req.body;
-
+export async function POST(req, res) {
+  const body = await req.json();
   const graphQlClient = new GraphQLClient(graphqlAPI, {
     headers: {
-      authorization: ` Bearer ${process.env.GRAPHCMS_TOKEN}`,
+      authorization: ` Bearer ${graphcmsToken}`,
     },
   });
-
   const query = gql`
     mutation CreateComment(
       $name: String!
@@ -21,7 +20,7 @@ export default async function comments(req, res) {
       $comment: String!
       $slug: String!
     ) {
-      CreateComment(
+      createComment(
         data: {
           name: $name
           email: $email
@@ -33,7 +32,10 @@ export default async function comments(req, res) {
       }
     }
   `;
-  const result = await graphQlClient.request(query, req.body);
-
-  return res.status(200).send(result);
+  try {
+    const result = await graphQlClient.request(query, body);
+    return new Response(result);
+  } catch (error) {
+    return new Response(error);
+  }
 }

@@ -1,4 +1,4 @@
-import { PostWidget, Categories, PostCard } from "@/components";
+import { PostWidget, Categories, PostCard, FeaturedPosts } from "@/components";
 import { getPosts } from "@/services";
 
 export default async function Home() {
@@ -6,9 +6,10 @@ export default async function Home() {
 
   return (
     <div className="container mx-auto px-10 mb-8">
+      <FeaturedPosts />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-8 col-span-1">
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             <PostCard post={post.node} key={post.node.slug} />
           ))}
         </div>
@@ -22,11 +23,3 @@ export default async function Home() {
     </div>
   );
 }
-
-// export async function getStaticProps() {
-//   const posts = (await getPosts()) || [];
-
-//   return {
-//     props: { posts },
-//   };
-// }
