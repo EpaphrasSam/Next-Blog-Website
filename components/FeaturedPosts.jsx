@@ -1,11 +1,11 @@
 "use client";
-
-import React, { useState, useEffect } from "react";
+import React, { Suspense } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 import FeaturedPostCard from "./FeaturedPostCard";
 import { getFeaturedPosts } from "@/services";
+import { useStore } from "zustand";
 
 const responsive = {
   superLargeDesktop: {
@@ -27,15 +27,11 @@ const responsive = {
 };
 
 const FeaturedPosts = () => {
-  const [featuredPosts, setFeaturedPosts] = useState([]);
-  const [dataLoaded, setDataLoaded] = useState(false);
-
-  useEffect(() => {
-    getFeaturedPosts().then((result) => {
-      setFeaturedPosts(result);
-      setDataLoaded(true);
-    });
-  }, []);
+  const { dataLoaded, featuredPosts } = useStore();
+  getFeaturedPosts().then((result) => {
+    useStore.setState({ featuredPosts: result });
+    useStore.setState({ dataLoaded: true });
+  });
 
   const customLeftArrow = (
     <div className="absolute arrow-btn left-0 text-center py-3 cursor-pointer bg-pink-600 rounded-full">
@@ -85,9 +81,9 @@ const FeaturedPosts = () => {
         itemClass="px-4"
       >
         {dataLoaded &&
-          featuredPosts.map((post, index) => (
-            <FeaturedPostCard key={index} post={post} />
-          ))}
+          featuredPosts.map((post, index) => {
+            <FeaturedPostCard key={index} post={post} />;
+          })}
       </Carousel>
     </div>
   );

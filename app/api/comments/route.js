@@ -34,8 +34,8 @@ export async function POST(req, res) {
   `;
   try {
     const result = await graphQlClient.request(query, body);
-    return new Response(result);
+    return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
-    return new Response(error);
+    return new Response(JSON.stringify(error), { status: 400 });
   }
 }
